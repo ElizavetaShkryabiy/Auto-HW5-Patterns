@@ -14,17 +14,18 @@ import static io.restassured.RestAssured.given;
 public class RegistrationData {
     public RegistrationData() {
     }
-    private static final RequestSpecification requestSpec = new RequestSpecBuilder()
+    public static final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
             .setPort(9999)
             .setAccept(ContentType.JSON)
             .setContentType(ContentType.JSON)
             .log(LogDetail.ALL)
             .build();
+
     private static final Faker faker = new Faker(new Locale("en"));
 
     public static String getRandomLogin() {
-        String login = String.valueOf(faker.name());
+        String login = faker.toString();
         return login;
     }
 
@@ -64,6 +65,12 @@ public class RegistrationData {
             UserInfo registeredUser = Registration.getUser(status);
             new Registration().sendRequest(registeredUser);
             return registeredUser;
+        }
+
+        public static UserInfo getNotRegisteredUser() {
+            UserInfo notRegisteredUser = Registration.getUser("blocked");
+
+            return notRegisteredUser;
         }
     }
 
