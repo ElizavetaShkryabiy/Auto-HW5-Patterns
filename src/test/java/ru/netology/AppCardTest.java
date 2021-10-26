@@ -46,6 +46,7 @@ public class AppCardTest {
         form.$("[data-test-id=agreement]").click();
         form.$(".button").find(byText("Запланировать")).click();
         $(".notification_visible").shouldBe(appear, Duration.ofSeconds(16));
+        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на " + CardOrderInfo.generateDate(5)));
 
         form.$("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
         form.$("[data-test-id=date] input").setValue(CardOrderInfo.generateDate(12));
