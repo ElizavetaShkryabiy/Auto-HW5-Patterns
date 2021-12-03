@@ -1,6 +1,10 @@
 package ru.netology;
 
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
@@ -13,6 +17,15 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class AppCardTest {
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
 
     @BeforeEach
     void setup() {
@@ -22,7 +35,7 @@ public class AppCardTest {
 
     @Test
     public void shouldTestHappyPathWith1Meeting() {
-                SelenideElement form = $(".form");
+        SelenideElement form = $(".form");
         form.$("[data-test-id=city] input").setValue(CardOrderInfo.generateCity());
         form.$("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
         form.$("[data-test-id=date] input").setValue(CardOrderInfo.generateDate(5));
